@@ -40,6 +40,8 @@ node src/index -a B62q... -e 9
 
 ### Result example
 ```json
+> node src\index.js a B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw -e 1
+        
 We calculate payouts for address: B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw
 In the epoch 1 with fee 5.00%
 
