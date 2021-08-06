@@ -1,8 +1,9 @@
 # Mina Payout Script
 **Mina Payout Script** is a tool to calculate payouts to the delegators. Script written in a JavaScript (NodeJS 14+).
+The script base on the [mina-payout](https://github.com/c29r3/mina-payout) by [Sergey (aka whataday2day)](https://github.com/c29r3).
 
 ### Key features
-- [x] Three types of commission.
+- [x] Three types of commission (for regular, foundation and supercharge).
 - [x] Calculate for required address and epoch
 - [x] Create result as detailed object
 
@@ -22,7 +23,7 @@ You can use command line argument to specify calculating:
 * `-a` address (**required**)
 * `-e` epoch (default `0`)
 * `-f` fee (default `0.05`)
-* `-s` fee for super charge rewards (default `0.05`)
+* `-s` fee for supercharge rewards (default `0.05`)
 * `-n` fee for foundation delegations (default `0.05`)
 * `-k` blocks to confirmations  (default `15`)
 * `-m` min block height (default `0`)
