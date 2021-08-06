@@ -38,6 +38,55 @@ To run script execute command:
 node src/index -a B62q... -e 9
 ```
 
+### Result example
+```json
+We calculate payouts for address: B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw
+In the epoch 1 with fee 5.00%
+
+Using ledger hash jx7buQVWFLsXTtzRgSxbYcT8EYLS8KCZbLrfDcJxMtyy4thw2Ee
+The pool total staking balance is: 66000
+The foundation delegation balance is: 0
+The unlocked balance is: 0
+There are 1 delegates in the pool
+We are using blocks from 0 to 48630
+
+We won these 1:
+┌────┬──────────────┬────────┬───────┬──────────┬──────┬───────┬──────────────────────────────────────────────────────┐
+│ ID │ Block height │ Reward │ Snark │  Tx Fees │ Slot │ Epoch │ Hash                                                 │
+├────┼──────────────┼────────┼───────┼──────────┼──────┼───────┼──────────────────────────────────────────────────────┤
+│  1 │         5184 │    720 │     0 │ 11000000 │ 7292 │     1 │ 3NLP7BhbvwCYfwfKZHz2bJBBbnrNEivym6fYrG1GZZwjhRhzYETd │
+└────┴──────────────┴────────┴───────┴──────────┴──────┴───────┴──────────────────────────────────────────────────────┘
+
+We are won 720.0110 mina (720011000000 nanomina) in this window.
+Regular rewards is 720.011 mina
+Super charge rewards is 0 mina
+Transactions fee is 0.011 mina
+Pool fee is 36.0005 mina
+Paid out rewards to delegators is 684.0104 mina
+Snark fee is 0 mina
+
+Paid out rewards by type:
+┌──────────────┬──────────┐
+│         Type │   Reward │
+├──────────────┼──────────┤
+│   Foundation │   0.0000 │
+│      Regular │ 684.0104 │
+│ Super Charge │   0.0000 │
+└──────────────┴──────────┘
+
+Payout table:
+┌────┬─────────────────────────────────────────────────────────┬─────────────────┬────────┬─────────────┬───────┬────────┐
+│ ID │                                                 Address │         Balance │      % │ Payout Mina │ Found │ Locked │
+├────┼─────────────────────────────────────────────────────────┼─────────────────┼────────┼─────────────┼───────┼────────┤
+│  1 │ B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw │ 66000.000000000 │ 100.00 │   684.01045 │    no │    yes │
+└────┴─────────────────────────────────────────────────────────┴─────────────────┴────────┴─────────────┴───────┴────────┘
+
+CSV data:
+
+"id","address","balance","percent","mina","found","locked"
+1,"B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw","66000.000000000","100.00",684.01045,"no","yes"
+```
+
 ## Disclaimer
 The script is provided as is. The author does not bear any responsibility for your mistakes and carelessness.
 
