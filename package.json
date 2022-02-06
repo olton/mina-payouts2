@@ -2,7 +2,7 @@
   "name": "mina-payouts2",
   "version": "1.0.0",
   "description": "Mina payouts calculator",
-  "main": "index.js",
+  "main": "src/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/olton/mina-payouts2.git"
@@ -14,10 +14,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["mina", "payouts", "javascript", "blockchain"],
+  "keywords": [
+    "mina",
+    "payouts",
+    "javascript",
+    "blockchain"
+  ],
   "author": "Serhii Pimenov <serhii@pimenov.com.ua>",
   "license": "MIT",
   "dependencies": {
+    "@o1labs/client-sdk": "^1.0.1",
     "console-table-printer": "^2.9.0",
     "json2csv": "^5.0.6",
     "node-fetch": "^2.6.1"

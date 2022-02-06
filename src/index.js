@@ -24,6 +24,7 @@ const {Table} = require("console-table-printer")
 * -c === coinbase
 * -i === include address to unlocked
 * -v === val.toFixed(v)
+* -o === foundation addresses value a name of text file
 *
 * Default values:
 * epoch = 0,
@@ -41,7 +42,8 @@ const {Table} = require("console-table-printer")
 /*
 * Set foundation delegation addresses, if exists
 * */
-const foundation = []
+let foundation = [
+]
 
 /*
 * Set calculation parameters
@@ -58,12 +60,18 @@ const {
     x: maxHeight = 0,
     c: coinbase = 720,
     i: includeAddressToUnlocked = false,
-    v: fixed = 4
+    v: fixed = 4,
+    o: foundationFile
 } = args
+
+if (foundationFile && fs.existsSync(foundationFile)) {
+    const founds = fs.readFileSync(foundationFile, {encoding:'utf8', flag:'r'})
+    foundation = founds.split("\n").map( v => v.trim()).filter(v => v !== '')
+}
 
 async function start () {
     print(`\nWe calculate payouts for address: ${address}`)
-    print(`In the epoch ${epoch} with fee ${(fee * 100).toFixed(2)}%`)
+    print(`In the epoch ${epoch} with fee ${(fee * 100).toFixed(2)}%, founds fee ${(feeFoundation * 100).toFixed(2)}%, supercharge fee ${(feeSuperCharge * 100).toFixed(2)}%`)
 
     const result = await calc(
         address,
@@ -133,7 +141,7 @@ async function start () {
     print(`Transactions fee is ${result.transactionsFee / 10**9} mina`)
     print(`Pool fee is ${ ((totalReward - result.delegatorsRewards) / 10**9).toFixed(fixed) } mina`)
     print(`Paid out rewards to delegators is ${ (result.delegatorsRewards / 10**9).toFixed(fixed) } mina`)
-    print(`Snark fee is ${result.totalSnarkFee / 10**9} mina`)
+    print(`Snark fee is ${result.totalSnarkFee} nanomina`)
 
     print(`\nPaid out rewards by type:`)
     const _tableRewards = new Table()
@@ -178,11 +186,27 @@ async function start () {
         const csv = parse(payoutTable, {fields: csvFields})
         writeFileSync(`./csv/rewards-epoch-${epoch}.csv`, csv)
 
-        print(`\nCSV data:\n`)
-        console.log(csv)
+        // print(`\nCSV data:\n`)
+        // console.log(csv)
     } catch (err) {
+        console.log("Generating CSV file error!")
         console.log(err)
     }
+
+    try {
+        const transFile = `./trn/transaction-epoch-${epoch}.txt`
+        let trn = ""
+        for (let r of payoutTable) {
+            let prefix = (r["address"] === address) ? "# " : ""
+            trn += `${prefix}mina client send-payment -amount ${r["mina"]}  -receiver ${r["address"]}  -fee 0.001 -memo Payout_Epoch_${epoch}  -sender $MINA_PUBLIC_KEY\n`
+        }
+        writeFileSync(transFile, trn)
+    } catch (err) {
+        console.log("Generating TRN file error!")
+        console.log(err)
+    }
+
+    // console.log(payoutTable)
 }
 
 start();
