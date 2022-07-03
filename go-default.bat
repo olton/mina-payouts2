@@ -1,1 +1,0 @@
-node src/index -a B62qrAWZFqvgJbfU95t1owLAMKtsDTAGgSZzsBJYUzeQZ7dQNMmG5vw -e %1 -i true -o found.txt

@@ -7,6 +7,8 @@ const {getArguments} = require("./helpers/arguments")
 const {isset} = require("./helpers/isset")
 const {print, error} = require("./helpers/print")
 const {Table} = require("console-table-printer")
+const {exit} = require("./helpers/exit");
+const fetch = require("node-fetch");
 
 /*
 * Using command line argument
@@ -42,8 +44,7 @@ const {Table} = require("console-table-printer")
 /*
 * Set foundation delegation addresses, if exists
 * */
-let foundation = [
-]
+let foundation = []
 
 /*
 * Set calculation parameters
@@ -64,14 +65,26 @@ const {
     o: foundationFile
 } = args
 
-if (foundationFile && fs.existsSync(foundationFile)) {
-    const founds = fs.readFileSync(foundationFile, {encoding:'utf8', flag:'r'})
-    foundation = founds.split("\n").map( v => v.trim()).filter(v => v !== '')
+const getFoundAddresses = async () => {
+    const foundationList = `https://raw.githubusercontent.com/jrwashburn/mina-pool-payout/main/src/data/nps-addresses/Mina_Foundation_Addresses.csv`
+    const o1labsList = `https://raw.githubusercontent.com/jrwashburn/mina-pool-payout/main/src/data/nps-addresses/O1_Labs_addresses.csv`
+    const f1 = (await fetch(foundationList, {encoding:'utf8', flag:'r'}))
+    const f2 = (await fetch(o1labsList, {encoding:'utf8', flag:'r'}))
+    return [].concat((await f1.text()).split("\n"), (await f2.text()).split("\n"))
 }
 
 async function start () {
     print(`\nWe calculate payouts for address: ${address}`)
     print(`In the epoch ${epoch} with fee ${(fee * 100).toFixed(2)}%, founds fee ${(feeFoundation * 100).toFixed(2)}%, supercharge fee ${(feeSuperCharge * 100).toFixed(2)}%`)
+
+    if (foundationFile && fs.existsSync(foundationFile)) {
+        const founds = fs.readFileSync(foundationFile, {encoding:'utf8', flag:'r'})
+        foundation = founds.split("\n").map( v => v.trim()).filter(v => v !== '')
+    } else {
+        foundation = await getFoundAddresses()
+    }
+
+    print(`\nFoundation addresses list contains: ${foundation.length} records`)
 
     const result = await calc(
         address,
@@ -86,7 +99,7 @@ async function start () {
             coinbase,
             includeAddressToUnlocked
         },
-        foundation)
+        foundation.map(v=>v.trim()))
 
     if (isset(result.error)) {
         console.log(result.error.message)

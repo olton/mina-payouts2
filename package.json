@@ -26,6 +26,6 @@
     "@o1labs/client-sdk": "^1.0.1",
     "console-table-printer": "^2.9.0",
     "json2csv": "^5.0.6",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }
